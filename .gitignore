@@ -29,3 +29,7 @@ target
 .settings
 .gradle
 Gemfile.lock
+
+# IDE files
+.idea
+config.iml
