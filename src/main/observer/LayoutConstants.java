@@ -15,6 +15,8 @@ public class LayoutConstants {
 
 	public static final int graphHeight = 210;
 
+	public static int graphWidth = 210;
+
 	public static final int maxValue = 100;
 
 	public static final int barHeight = 200;
@@ -26,7 +28,7 @@ public class LayoutConstants {
 	public static final Color[] courseColours = { Color.BLUE, Color.RED,
 			Color.YELLOW, Color.GREEN, Color.BLACK, Color.CYAN, Color.MAGENTA,
 			Color.ORANGE, Color.PINK };
-	
+
 	public static void paintBarChartOutline(Graphics g, int noOfBars) {
 		g.setColor(Color.black);
 		g.drawString("Num of Students", LayoutConstants.xOffset - 120, 150);

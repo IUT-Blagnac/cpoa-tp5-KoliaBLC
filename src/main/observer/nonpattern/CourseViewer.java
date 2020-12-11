@@ -129,22 +129,42 @@ public class CourseViewer extends JFrame implements ActionListener,
 		}
 	}
 
-	public void paint(Graphics g) {
-		super.paint(g);
-		LayoutConstants.paintBarChartOutline(g, sliders.size());
+	public void paint(Graphics g1) {
+		super.paint(g1);
+		//piechart
+		int radius = 100;
+		//first compute the total number of students
+		double total = 0.0;
+		for (int i = 0; i < sliders.size(); i++) {
+			total += sliders.get(i).getValue();
+		}
+		//if total == 0 nothing to draw
+		if (total != 0) {
+			double startAngle = 0.0;
+			for (int i = 0; i < sliders.size(); i++) {
+				double ratio = (sliders.get(i).getValue() / total) * 360.0;
+				//draw the arc
+				g1.setColor(LayoutConstants.courseColours[i%LayoutConstants.courseColours.length]);
+				g1.fillArc(LayoutConstants.xOffset, LayoutConstants.yOffset + 300, 2 * radius, 2 * radius, (int) startAngle, (int) ratio);
+				startAngle += ratio;
+			}
+		}
+		//barchart
+		LayoutConstants.paintBarChartOutline(g1, sliders.size());
 		for (int i = 0; i < sliders.size(); i++) {
 			JSlider record = sliders.elementAt(i);
-			g.setColor(LayoutConstants.courseColours[i]);
-			g.fillRect(
+			g1.setColor(LayoutConstants.courseColours[i]);
+			g1.fillRect(
 					LayoutConstants.xOffset + (i + 1)
 							* LayoutConstants.barSpacing + i
-							* LayoutConstants.barWidth, LayoutConstants.yOffset
+							* LayoutConstants.barWidth,
+					LayoutConstants.yOffset
 							+ LayoutConstants.graphHeight
 							- LayoutConstants.barHeight + 2
 							* (LayoutConstants.maxValue - record.getValue()),
 					LayoutConstants.barWidth, 2 * record.getValue());
-			g.setColor(Color.red);
-			g.drawString(record.getName(),
+			g1.setColor(Color.red);
+			g1.drawString(record.getName(),
 					LayoutConstants.xOffset + (i + 1)
 							* LayoutConstants.barSpacing + i
 							* LayoutConstants.barWidth, LayoutConstants.yOffset
@@ -187,8 +207,10 @@ public class CourseViewer extends JFrame implements ActionListener,
 		viewer.addCourse(new CourseRecord("Physics", 50));
 		viewer.addCourse(new CourseRecord("Chemistry", 50));
 		viewer.addCourse(new CourseRecord("Biology", 50));
+		viewer.addCourse(new CourseRecord("Maths", 50));
+		viewer.addCourse(new CourseRecord("History", 50));
 	}
-	
+
 	// Frame contents
 	private JPanel sliderPanel;
 
